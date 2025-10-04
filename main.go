@@ -1,9 +1,9 @@
 package main
 
 import (
-	milk "milk/src"
+	"milk/examples"
 )
 
 func main() {
-	milk.App()
+	examples.HelloWorld()
 }
