@@ -1,18 +1,24 @@
 package core
 
 type Html struct {
-	Title string
-	Body  Renderable
+	Title     string
+	Body      Renderable
+	GlobalCSS Sheet
 }
 
-func Page(children ...interface{}) Html {
-	return Html{
+func Page(children ...interface{}) *Html {
+	return &Html{
 		Body: Element("body", children...),
 	}
 }
 
 func HTML() *Html {
 	return &Html{Body: Text("")}
+}
+
+func (h *Html) CSS(s Sheet) *Html {
+	h.GlobalCSS = s
+	return h
 }
 
 func (h *Html) Content(body Renderable) {
@@ -33,6 +39,12 @@ func (h Html) Render() string {
 
 		if h.Title != "" {
 			content += "<title>" + h.Title + "</title>"
+		}
+
+		if h.GlobalCSS != nil {
+			content += "<style>"
+			// content += h.GlobalCSS.RenderGlobal()
+			content += "</style>"
 		}
 
 		content += "</head>"
