@@ -1,5 +1,7 @@
 package core
 
+import "fmt"
+
 type Renderable interface {
 	Render() string
 }
@@ -7,13 +9,21 @@ type Renderable interface {
 type Component struct {
 	Tag      string
 	Children []Renderable
-	Styles   map[string]string
+	Styles   []StyleByte
 	Classes  []string
 	Id       string
+	LocalCSS *Sheet
+
+	// Image
+	ImageSrc    string
+	ImageAlt    string
+	ImageWidth  int
+	ImageHeight int
 }
 
 func (c Component) Render() string {
 	var result string
+
 	result += "<" + c.Tag
 
 	if len(c.Classes) > 0 {
@@ -31,10 +41,28 @@ func (c Component) Render() string {
 		result += " id=\"" + c.Id + "\""
 	}
 
+	if c.Tag == "img" {
+		if c.ImageSrc != "" {
+			result += " src=\"" + c.ImageSrc + "\""
+		}
+
+		if c.ImageAlt != "" {
+			result += " alt=\"" + c.ImageAlt + "\""
+		}
+
+		if c.ImageWidth > 0 {
+			result += " width=\"" + fmt.Sprint(c.ImageWidth) + "\""
+		}
+
+		if c.ImageHeight > 0 {
+			result += " height=\"" + fmt.Sprint(c.ImageHeight) + "\""
+		}
+	}
+
 	if len(c.Styles) > 0 {
 		result += " style=\""
-		for k, v := range c.Styles {
-			result += k + ":" + v + ";"
+		for _, style := range c.Styles {
+			result += style.Render()
 		}
 		result += "\""
 	}
@@ -46,6 +74,11 @@ func (c Component) Render() string {
 	}
 
 	result += "</" + c.Tag + ">"
+
+	if c.LocalCSS != nil {
+		result += "<style>" + c.LocalCSS.RenderGlobal() + "</style>"
+	}
+
 	return result
 }
 

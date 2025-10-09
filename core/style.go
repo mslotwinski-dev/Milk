@@ -10,15 +10,14 @@ func GetStyle(property string, value string) StyleByte {
 }
 
 func (c *Component) Style(styles ...StyleByte) *Component {
-	if c.Styles == nil {
-		c.Styles = make(map[string]string)
-	}
 
-	for _, s := range styles {
-		c.Styles[s.Property] = s.Value
-	}
+	c.Styles = append(c.Styles, styles...)
 
 	return c
+}
+
+func (s StyleByte) Render() string {
+	return s.Property + ":" + s.Value + ";"
 }
 
 func (c *Component) Class(class ...string) *Component {

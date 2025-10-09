@@ -4,6 +4,7 @@ type Html struct {
 	Title     string
 	Body      Renderable
 	GlobalCSS Sheet
+	DevMode   bool
 }
 
 func Page(children ...interface{}) *Html {
@@ -29,7 +30,12 @@ func (h *Html) SetTitle(title string) {
 	h.Title = title
 }
 
-func (h Html) Render() string {
+func (h *Html) Dev() *Html {
+	h.DevMode = true
+	return h
+}
+
+func (h *Html) Render() string {
 	content := "<!DOCTYPE html>"
 	content += "<html>"
 
@@ -41,9 +47,16 @@ func (h Html) Render() string {
 			content += "<title>" + h.Title + "</title>"
 		}
 
+		if h.DevMode {
+			content += `
+			<script>
+				console.log("Dev mode enabled");
+			</script>`
+		}
+
 		if h.GlobalCSS != nil {
 			content += "<style>"
-			// content += h.GlobalCSS.RenderGlobal()
+			content += h.GlobalCSS.RenderGlobal()
 			content += "</style>"
 		}
 
