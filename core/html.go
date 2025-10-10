@@ -1,7 +1,7 @@
 package core
 
 type Html struct {
-	Title     string
+	Head      Head
 	Body      Renderable
 	GlobalCSS Sheet
 	DevMode   bool
@@ -13,21 +13,9 @@ func Page(children ...interface{}) *Html {
 	}
 }
 
-func HTML() *Html {
-	return &Html{Body: Text("")}
-}
-
 func (h *Html) CSS(s Sheet) *Html {
 	h.GlobalCSS = s
 	return h
-}
-
-func (h *Html) Content(body Renderable) {
-	h.Body = body
-}
-
-func (h *Html) SetTitle(title string) {
-	h.Title = title
 }
 
 func (h *Html) Dev() *Html {
@@ -43,8 +31,10 @@ func (h *Html) Render() string {
 	{
 		content += "<head>"
 
-		if h.Title != "" {
-			content += "<title>" + h.Title + "</title>"
+		content += `<meta charset="UTF-8">`
+
+		if h.Head.Title != "" {
+			content += "<title>" + h.Head.Title + "</title>"
 		}
 
 		if h.DevMode {

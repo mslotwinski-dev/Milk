@@ -97,7 +97,6 @@ func Rt(children ...interface{}) *Component         { return Element("rt", child
 func Ruby(children ...interface{}) *Component       { return Element("ruby", children...) }
 func S(children ...interface{}) *Component          { return Element("s", children...) }
 func Samp(children ...interface{}) *Component       { return Element("samp", children...) }
-func Script(children ...interface{}) *Component     { return Element("script", children...) }
 func Section(children ...interface{}) *Component    { return Element("section", children...) }
 func Select(children ...interface{}) *Component     { return Element("select", children...) }
 func Small(children ...interface{}) *Component      { return Element("small", children...) }

@@ -14,11 +14,7 @@ type Component struct {
 	Id       string
 	LocalCSS *Sheet
 
-	// Image
-	ImageSrc    string
-	ImageAlt    string
-	ImageWidth  int
-	ImageHeight int
+	Atributes Atributes
 }
 
 func (c Component) Render() string {
@@ -42,20 +38,20 @@ func (c Component) Render() string {
 	}
 
 	if c.Tag == "img" {
-		if c.ImageSrc != "" {
-			result += " src=\"" + c.ImageSrc + "\""
+		if c.Atributes.ImageSrc != "" {
+			result += " src=\"" + c.Atributes.ImageSrc + "\""
 		}
 
-		if c.ImageAlt != "" {
-			result += " alt=\"" + c.ImageAlt + "\""
+		if c.Atributes.ImageAlt != "" {
+			result += " alt=\"" + c.Atributes.ImageAlt + "\""
 		}
 
-		if c.ImageWidth > 0 {
-			result += " width=\"" + fmt.Sprint(c.ImageWidth) + "\""
+		if c.Atributes.ImageWidth > 0 {
+			result += " width=\"" + fmt.Sprint(c.Atributes.ImageWidth) + "\""
 		}
 
-		if c.ImageHeight > 0 {
-			result += " height=\"" + fmt.Sprint(c.ImageHeight) + "\""
+		if c.Atributes.ImageHeight > 0 {
+			result += " height=\"" + fmt.Sprint(c.Atributes.ImageHeight) + "\""
 		}
 	}
 
