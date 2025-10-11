@@ -1,5 +1,10 @@
 package core
 
+import (
+	"fmt"
+	"strings"
+)
+
 type Html struct {
 	Head      Head
 	Body      Renderable
@@ -24,39 +29,38 @@ func (h *Html) Dev() *Html {
 }
 
 func (h *Html) Render() string {
-	content := "<!DOCTYPE html>"
-	content += "<html>"
+
+	var b strings.Builder
+
+	b.WriteString("<!DOCTYPE html>")
+	b.WriteString("<html>")
 
 	// Head
 	{
-		content += "<head>"
+		b.WriteString("<head>")
 
-		content += `<meta charset="UTF-8">`
+		b.WriteString(h.Head.Render())
 
-		if h.Head.Title != "" {
-			content += "<title>" + h.Head.Title + "</title>"
+		if h.GlobalCSS != nil {
+			b.WriteString("<style>")
+			b.WriteString(h.GlobalCSS.RenderGlobal())
+			b.WriteString("</style>")
 		}
 
 		if h.DevMode {
-			content += `
+			b.WriteString(`
 			<script>
 				console.log("Dev mode enabled");
-			</script>`
+			</script>`)
 		}
 
-		if h.GlobalCSS != nil {
-			content += "<style>"
-			content += h.GlobalCSS.RenderGlobal()
-			content += "</style>"
-		}
+		b.WriteString("</head>")
 
-		content += "</head>"
 	}
 
-	// Body
-	content += "<body>" + h.Body.Render() + "</body>"
+	fmt.Fprintf(&b, "<body>%s</body>", h.Body.Render())
 
-	content += "</html>"
+	fmt.Fprintf(&b, "</html>")
 
-	return content
+	return b.String()
 }

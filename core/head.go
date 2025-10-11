@@ -1,5 +1,10 @@
 package core
 
+import (
+	"fmt"
+	"strings"
+)
+
 type Head struct {
 	Title         string
 	Keywords      []string
@@ -20,6 +25,68 @@ type Head struct {
 	Manifest  string
 
 	Scripts []Script
+}
+
+func (h *Head) Render() string {
+	var b strings.Builder
+
+	b.WriteString(`<meta charset="UTF-8">`)
+
+	if h.Title != "" {
+		fmt.Fprintf(&b, "<title>%s</title>", h.Title)
+	}
+
+	if h.Description != "" {
+		fmt.Fprintf(&b, `<meta name="description" content="%s">`, h.Description)
+	}
+
+	if len(h.Keywords) > 0 {
+		fmt.Fprintf(&b, `<meta name="keywords" content="%s">`, strings.Join(h.Keywords, ", "))
+	}
+
+	if h.Author != "" {
+		fmt.Fprintf(&b, `<meta name="author" content="%s">`, h.Author)
+	}
+
+	if h.Robots != "" {
+		fmt.Fprintf(&b, `<meta name="robots" content="%s">`, h.Robots)
+	}
+
+	if h.Refresh > 0 {
+		fmt.Fprintf(&b, `<meta http-equiv="refresh" content="%d">`, h.Refresh)
+	}
+
+	if !h.NotResponsive {
+		b.WriteString(`<meta name="viewport" content="width=device-width, initial-scale=1.0">`)
+	}
+
+	if h.OgTitle != "" {
+		fmt.Fprintf(&b, `<meta property="og:title" content="%s">`, h.OgTitle)
+	}
+	if h.OgDescription != "" {
+		fmt.Fprintf(&b, `<meta property="og:description" content="%s">`, h.OgDescription)
+	}
+	if h.OgImage != "" {
+		fmt.Fprintf(&b, `<meta property="og:image" content="%s">`, h.OgImage)
+	}
+	if h.OgType != "" {
+		fmt.Fprintf(&b, `<meta property="og:type" content="%s">`, h.OgType)
+	}
+	if h.OgUrl != "" {
+		fmt.Fprintf(&b, `<meta property="og:url" content="%s">`, h.OgUrl)
+	}
+
+	if h.Favicon != "" {
+		fmt.Fprintf(&b, `<link rel="icon" href="%s">`, h.Favicon)
+	}
+	if h.AppleIcon != "" {
+		fmt.Fprintf(&b, `<link rel="apple-touch-icon" href="%s">`, h.AppleIcon)
+	}
+	if h.Manifest != "" {
+		fmt.Fprintf(&b, `<link rel="manifest" href="%s">`, h.Manifest)
+	}
+
+	return b.String()
 }
 
 func (h *Html) SetTitle(title string) {
