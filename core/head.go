@@ -23,8 +23,6 @@ type Head struct {
 	Favicon   string
 	AppleIcon string
 	Manifest  string
-
-	Scripts []Script
 }
 
 func (h *Head) Render() string {

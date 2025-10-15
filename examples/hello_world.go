@@ -7,12 +7,12 @@ import (
 
 func HelloWorld() {
 
-	css := c.DefineCSS(
+	var css = c.DefineCSS(
 		c.CSS("body", c.FontSize("16px"), c.FontFamily("Arial, sans-serif"), c.BackgroundColor("#e3e3e3"), c.Display("flex"), c.AlignItems("center"), c.JustifyContent("center"), c.FlexDirection("column"), c.Height("80vh")),
 		c.CSS(".header", c.FontSize("24px"), c.Color("#00647d")),
 	)
 
-	css2 := c.DefineCSS(c.CSS("", c.BackgroundColor("white"), c.BorderRadius("5px"), c.Padding("10px")))
+	var css2 = c.DefineCSS(c.CSS("", c.BackgroundColor("white"), c.BorderRadius("5px"), c.Padding("10px")))
 
 	page := c.Page(
 		c.H1(
@@ -21,12 +21,14 @@ func HelloWorld() {
 		c.Div("Abcdefghijklmnopqrstuvwxyz").Style(c.Color("red"), c.FontSize("20px")),
 		c.P(
 			"To jest akapit tekstu wygenerowany w Go przy użyciu Milk .",
-		).Style(c.Color("white"), c.BackgroundColor("#333"), c.Padding("10px"), c.FontSize("18px")),
+		).Style(c.Color("white"), c.BackgroundColor("#333"), c.Padding("10px"), c.FontSize("18px"), c.BorderRadius("5px")),
 		c.Img().Src("assets/sushi.png").Alt("Sushi").Width(200).Height(200),
 	).CSS(css)
 
 	page.SetTitle("Moja Pierwsza Strona w Milk")
 
-	web.Run(page.Dev(), 7250)
+	page.RawScript(`console.log("Hello from Milk!!!!")`, c.WithDefer())
+
+	web.Run(page, 7250)
 
 }

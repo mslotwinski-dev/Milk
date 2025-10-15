@@ -39,7 +39,6 @@ func Cite(children ...interface{}) *Component       { return Element("cite", chi
 func Code(children ...interface{}) *Component       { return Element("code", children...) }
 func Col(children ...interface{}) *Component        { return Element("col", children...) }
 func Colgroup(children ...interface{}) *Component   { return Element("colgroup", children...) }
-func Data(children ...interface{}) *Component       { return Element("data", children...) }
 func Datalist(children ...interface{}) *Component   { return Element("datalist", children...) }
 func Dd(children ...interface{}) *Component         { return Element("dd", children...) }
 func Del(children ...interface{}) *Component        { return Element("del", children...) }

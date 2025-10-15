@@ -5,6 +5,7 @@ import (
 )
 
 func main() {
-	examples.HelloWorld()
+	// examples.HelloWorld()
+	examples.Counter()
 
 }

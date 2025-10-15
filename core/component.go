@@ -13,6 +13,7 @@ type Component struct {
 	Classes  []string
 	Id       string
 	LocalCSS *Sheet
+	Alpine   AlpineJS
 
 	Atributes Atributes
 }
@@ -36,6 +37,8 @@ func (c Component) Render() string {
 	if c.Id != "" {
 		result += " id=\"" + c.Id + "\""
 	}
+
+	result += c.Alpine.Render()
 
 	if c.Tag == "img" {
 		if c.Atributes.ImageSrc != "" {
